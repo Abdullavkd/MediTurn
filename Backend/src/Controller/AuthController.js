@@ -1,4 +1,4 @@
-import { AuthSer } from "../Composer/composer";
+import { AuthSer } from "../Composer/composer.js";
 
 class AuthContoller {
     async registerUser(req, res) {
@@ -10,7 +10,7 @@ class AuthContoller {
                 data: newUser
             })
         } catch (error) {
-            res.status(error.message || 500).json({success: false, message: error.message});
+            res.status(error.status || 500).json({success: false, message: error.message});
         }
     }
 
@@ -32,7 +32,7 @@ class AuthContoller {
             res.cookie('refreshToken', refreshToken, {
                 httpOnly: true,
                 secure: process.env.NODE_ENV === 'production',
-                samSite: 'strict',
+                sameSite: 'strict',
                 maxAge: 7 * 24 * 60 * 60 * 1000
             })
 

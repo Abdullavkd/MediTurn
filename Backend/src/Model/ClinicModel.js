@@ -28,8 +28,8 @@ const clinicSchema = mongoose.Schema({
     status: {
         type: Sting,
         required: [true, "Status is required"],
-        enum: ["Active", "Temporory Closed", "Blocked", "Open Soon", "Pending"],
-        default: "Active"
+        enum: ["Active", "Temporory Closed", "Open Soon", "Pending"],
+        default: "Pending"
     }
 },{timestamps: true});
 

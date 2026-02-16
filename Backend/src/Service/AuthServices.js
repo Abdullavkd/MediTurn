@@ -11,7 +11,8 @@ class AuthServices {
             const isMatch = await bcrypt.compare(password, user.password);
             if(!isMatch) throw new Error("Incurrect password");
             
-            return TokenGen(user.id, user.role);
+            const {accessToken, refreshToken} = TokenGen(user.id, user.role);
+            return {accessToken, refreshToken, user}
         } catch (error) {
             throw error;
         }

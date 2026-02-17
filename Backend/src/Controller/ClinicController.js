@@ -30,12 +30,13 @@ class ClinicController {
     // function to find clinic by id
     async findClinicById(req, res) {
         try {
-            const clinicId = req.params.clinicId;
+            const clinicId = req.params.id;
+            
             const clinic = await ClinicSer.findClinicById(clinicId);
 
             res.status(200).json({success: true, data: clinic})
         } catch (error) {
-            res.status(error.status).json(error.message);
+            res.status(error.status || 500).json(error.message || "Server Error");
         }
     }
 
@@ -43,11 +44,11 @@ class ClinicController {
     // function to find Clinic By owner
     async findClinicByOwner(req, res) {
         try {
-            const ownerId = req.params.ownerId;
+            const ownerId = req.params.id;
             const clinic = await ClinicSer.findClinicByOwner(ownerId);
             res.status(200).json({success: true, data: clinic})
         } catch (error) {
-            res.status(error.status).json(error.message);
+            res.status(error.status || 500).json(error.message || "Server Error");
         }
     }
 }

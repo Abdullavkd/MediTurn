@@ -4,11 +4,13 @@ import mongoose from "mongoose";
 const DoctorSchema = mongoose.Schema({
     userId: {
         type: mongoose.Schema.Types.ObjectId,
-        required: true
+        required: true,
+        ref: 'user'
     },
     clinicId: {
         type: mongoose.Schema.Types.ObjectId,
-        required: true
+        required: true,
+        ref: 'clinic'
     },
     specialization: {
         type: String,

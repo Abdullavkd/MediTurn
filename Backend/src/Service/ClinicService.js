@@ -6,7 +6,7 @@ class ClinicService {
         try {
             console.log(name, place, ownerId, status)
             if(!name || !place || !ownerId || !start || !end || !status) throw new Error("name, place, ownerId, time and status are required");
-            return await ClinicRepo.create(name, place, ownerId, start, end, averageConsultationTime, status);
+            return await ClinicRepo.create(name, place, start, end, ownerId, averageConsultationTime, status);
             
         } catch (error) {
             throw error;
@@ -44,7 +44,7 @@ class ClinicService {
             if(!ownerId) throw new Error("OwnerId is required");
             const clinics = await ClinicRepo.findByOwner(ownerId);
 
-            if(!clinics) throw new Error("No Clinic Listed By the provided User");
+            if(clinics.length < 1) throw new Error("No Clinic Listed By the provided User");
             
             return clinics;
         } catch (error) {

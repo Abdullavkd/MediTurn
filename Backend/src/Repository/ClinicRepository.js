@@ -2,7 +2,7 @@ import ClinicModel from "../Model/ClinicModel.js";
 
 
 class ClinicRepository {
-    async create(name, place, ownerId, start, end, averageConsultationTime, status) {
+    async create(name, place, start, end, ownerId, averageConsultationTime, status) {
         try {
             if(!name || !place || !ownerId || !start || !end || !status) throw new Error("name, place, ownerId, time and status are required");
             return await ClinicModel.create({name, place, ownerId, workingHours:{start, end}, averageConsultationTime, status});
@@ -35,7 +35,7 @@ class ClinicRepository {
     async findByOwner(ownerId) {
         try {
             if(!ownerId) throw new Error("Owner ID is Required");
-            return await ClinicModel.findById(ownerId);
+            return await ClinicModel.find({ownerId});
         } catch (error) {
             throw error;
         }

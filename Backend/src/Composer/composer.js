@@ -7,6 +7,7 @@ import ClinicService from "../Service/ClinicService.js";
 import ClinicController from "../Controller/ClinicController.js";
 import AuthMiddleware from "../Middleware/AuthMiddleware.js";
 import DoctorRepository from "../Repository/DoctorRepositoty.js";
+import DoctorServices from "../Service/DoctorService.js";
 
 
 
@@ -20,3 +21,4 @@ export const ClinicSer = new ClinicService();
 export const ClinicCont = new ClinicController();
 export const AuthMiddle = new AuthMiddleware();
 export const DoctorRepo = new DoctorRepository();
+export const DoctorSer = new DoctorServices();

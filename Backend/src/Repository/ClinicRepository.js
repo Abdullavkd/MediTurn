@@ -35,7 +35,7 @@ class ClinicRepository {
     async findByOwner(ownerId) {
         try {
             if(!ownerId) throw new Error("Owner ID is Required");
-            return await ClinicModel.findById(id);
+            return await ClinicModel.findById(ownerId);
         } catch (error) {
             throw error;
         }

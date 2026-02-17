@@ -2,8 +2,9 @@ import { ClinicRepo } from "../Composer/composer.js";
 
 
 class ClinicService {
-    async clinicCreate(name, place, ownerId, start, end, averageConsultationTime, status) {
+    async clinicCreate(name, place, start, end, ownerId, averageConsultationTime, status) {
         try {
+            console.log(name, place, ownerId, status)
             if(!name || !place || !ownerId || !start || !end || !status) throw new Error("name, place, ownerId, time and status are required");
             return await ClinicRepo.create(name, place, ownerId, start, end, averageConsultationTime, status);
             

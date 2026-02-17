@@ -18,27 +18,28 @@ class AuthContoller {
     async loginUser(req, res) {
         try {
             const {email, password} = req.body;
-            const {accessToken, refreshToken, user} = await AuthSer.login(email, password);
-            
+            const data = await AuthSer.login(email, password);
+
             // save accessToken in cookies
-            res.cookie('accessToken', accessToken, {
+            res.cookie('accessToken', data.accessToken, {
                 httpOnly: true,
                 secure: process.env.NODE_ENV === 'production',
                 sameSite: 'strict',
                 maxAge: 15 * 60 * 1000
             })
-
+            
             // save refreshToken in cookies
-            res.cookie('refreshToken', refreshToken, {
+            res.cookie('refreshToken', data.refreshToken, {
                 httpOnly: true,
                 secure: process.env.NODE_ENV === 'production',
                 sameSite: 'strict',
                 maxAge: 7 * 24 * 60 * 60 * 1000
             })
+            
 
             res.status(200).json({
                 success: true,
-                data: {name: user.name, email: user.email, role: user.role, status: user.status}
+                data: {name: data.user.name, email: data.user.email, role: data.user.role, status: data.user.status}
             })
         } catch (error) {
             res.status(error.status || 500).json({success: false, message: error.message})

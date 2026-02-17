@@ -10,14 +10,16 @@ const clinicSchema = mongoose.Schema({
         required: [true, "place is required"]
     },
     ownerId: {
-        type: mongoose.Schema.Types.ObjectId(),
+        type: mongoose.Schema.Types.ObjectId,
         required: [true, "onwnerId is required"]
     },
     workingHours: {
         start: {
+            type: String,
             required: true
         },
         end: {
+            type: String,
             required: true
         }
     },
@@ -26,7 +28,7 @@ const clinicSchema = mongoose.Schema({
         default: 15
     },
     status: {
-        type: Sting,
+        type: String,
         required: [true, "Status is required"],
         enum: ["Active", "Temporory Closed", "Open Soon", "Pending"],
         default: "Pending"

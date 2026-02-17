@@ -17,7 +17,7 @@ class DoctorServices {
     }
 
     // function to get doctors  of a clinic by clinic id
-    async doctorByClinic(clinicId) {
+    async doctorByClinicId(clinicId) {
         try {
             if(!clinicId) throw new Error("Clinic ID is required");
             const clinic = await ClinicRepo.findById(clinicId)

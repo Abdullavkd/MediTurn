@@ -44,7 +44,7 @@ const DoctorSchema = mongoose.Schema({
     AvgTimePerPatient: {
         type: Number,
     }
-})
+},{timestamps: true})
 
-const DoctorModel = mongoose.model('doctor',DoctorSchema);
-export default DoctorModel;
+const doctorModel = mongoose.model('doctor',DoctorSchema);
+export default doctorModel;

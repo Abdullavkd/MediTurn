@@ -3,9 +3,10 @@ import cors from 'cors';
 import connectDB from './Config/db.js';
 import dotenv from 'dotenv'
 import cookieParser from 'cookie-parser'
-import authRouter from './Router/authRouter.js';
+import authRouter from './Router/authRoutes.js';
 import clinicRouter from './Router/ClinicRouter.js';
 import morgan from 'morgan'
+import doctorRouter from './Router/DoctorRouter.js';
 
 dotenv.config()
 const app = express();
@@ -21,7 +22,8 @@ connectDB();
 
 // Routes
 app.use('/api/auth', authRouter);
-app.use('/api/clinic', clinicRouter)
+app.use('/api/clinic', clinicRouter);
+app.use('/api/doctor', doctorRouter)
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => {

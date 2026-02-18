@@ -16,7 +16,27 @@ class DoctorRepository {
     async getDoctorsByClinic(clinicId) {
         try {
             if(!clinicId) throw new Error("Clinic ID is required");
-            return await doctorModel.find({clinicId});
+            return await doctorModel.find({clinicId}).populate('userId');
+        } catch (error) {
+            throw error;
+        }
+    }
+
+
+    async updateAvailability(userId,isAvailable) {
+        try {
+            if(!userId) throw new Error("User ID and isAvailable are required");
+            return await doctorModel.findOneAndUpdate({userId},{isAvailable: isAvailable}, {new: true, runValidators: true});
+        } catch (error) {
+            throw error;
+        }
+    }
+
+
+    async getDoctorById(userId) {
+        try {
+            if(!userId) throw new Error("User ID is required");
+            return await doctorModel.findOne({userId}).populate('userId');
         } catch (error) {
             throw error;
         }

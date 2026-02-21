@@ -4,8 +4,8 @@ import { AppointmentRepo } from "../Composer/composer.js";
 class AppointmentService {
     async createAppointment(appointmentData) {
         try {
-            const {clinicId, patientId, appointmentTime} = appointmentData;
-            if(!clinicId || !patientId || !appointmentTime) throw new Error("Clinic ID, Patient ID and Appointment Time are required");
+            const {clinicId, patientId } = appointmentData;
+            if(!clinicId || !patientId) throw new Error("Clinic ID and Patient ID are required");
             const appointment = await AppointmentRepo.createAppointment(clinicId, patientId, appointmentTime);
             return appointment;
         } catch (error) {

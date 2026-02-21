@@ -5,6 +5,7 @@ class AppointmentController {
     async createAppointment(req, res) {
         try {
             const {patient, clinicId} = req.body;
+            
             const newAppointment = await AppointmentSer.createAppointment(patient, clinicId);
             res.status(201).json({success: true, data: newAppointment})
         } catch (error) {

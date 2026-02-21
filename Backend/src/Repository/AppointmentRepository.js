@@ -1,11 +1,18 @@
+import { ClinicRepo } from "../Composer/composer.js";
 import AppointmentModel from "../Model/AppointmentModel.js";
 
 
 class AppointmentRepository {
     // function to create a new appointment
-    async createAppointment(patientId, clinicId, tokenNumber) {
+    async createAppointment(patientId, clinicId) {
         try {
-            if(!patientId || !clinicId || !tokenNumber) throw new Error("Patient ID, Clinic ID and Token Number are required");
+            if(!patientId || !clinicId) throw new Error("Patient ID and Clinic ID are required");
+            const tokenNumber = await ClinicRepo.findById(clinicId).then(clinic => {
+                if(!clinic) throw new Error("No Clinic Found with the provided ID");
+                return clinic.tokensPerDay + 1;
+            });
+            await ClinicRepo.findByIdAndUpdate(clinicId, {$inc: {tokensPerDay: 1}}, {new: true}); 
+            
             const appointment = await AppointmentModel.create({patientId, clinicId, tokenNumber});
             return appointment;
         } catch (error) {

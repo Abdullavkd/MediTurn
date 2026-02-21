@@ -32,6 +32,10 @@ const clinicSchema = mongoose.Schema({
         required: [true, "Status is required"],
         enum: ["Active", "Temporory Closed", "Open Soon", "Pending"],
         default: "Pending"
+    },
+    tokensPerDay: {
+        type: Number,
+        required: true
     }
 },{timestamps: true});
 

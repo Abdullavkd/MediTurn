@@ -8,8 +8,11 @@ class DoctorController {
         try {
             const {userId, specialization, isAvailable, breakTime} = req.body;
             const {clinicId} = req.params;
+            const adminId = req.user.id;
+            
             const breakTimes = breakTime ? breakTime.split(',').map(time => time.trim()) : [];
-            const newDoctor = await DoctorSer.newDoctor(userId, clinicId, specialization, isAvailable, [...breakTimes]);
+            
+            const newDoctor = await DoctorSer.newDoctor(userId, clinicId, specialization, isAvailable, [...breakTimes], adminId);
             res.status(201).json({success: true, data: newDoctor});
         } catch (error) {
             res.status(error.status || 500).json(error.message || "Server Error");

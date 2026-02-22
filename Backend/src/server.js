@@ -23,7 +23,8 @@ connectDB();
 // Routes
 app.use('/api/auth', authRouter);
 app.use('/api/clinic', clinicRouter);
-app.use('/api/doctor', doctorRouter)
+app.use('/api/doctor', doctorRouter);
+
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => {

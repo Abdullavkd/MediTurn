@@ -22,7 +22,7 @@ class ClinicController {
             const allClinics = await ClinicSer.allClinics();
             res.status(200).json({success: true, data: allClinics})
         } catch (error) {
-            res.status(error.status).json(error.message);
+            res.status(error.status || 500).json(error.message);
         }
     }
 

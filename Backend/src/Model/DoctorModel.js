@@ -41,10 +41,13 @@ const DoctorSchema = mongoose.Schema({
         type: Boolean,
         default: true
     },
-    AvgTimePerPatient: {
-        type: Number,
+    breakTime: {
+        type: Array
     }
 },{timestamps: true})
 
 const doctorModel = mongoose.model('doctor',DoctorSchema);
 export default doctorModel;
+
+
+

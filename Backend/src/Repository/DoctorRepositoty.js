@@ -63,5 +63,19 @@ class DoctorRepository {
             throw error;
         }
     }
+
+    // function to update doctor details by doctor id
+    async updateDoctorDetails(doctorId, updateData) {
+        try {
+            const updatedDoctor = await doctorModel.findByIdAndUpdate(
+                doctorId,
+                {$set: updateData},
+                {new: true, runValidators: true}
+            ).populate('userId', '-password');
+            return updatedDoctor;
+        } catch (error) {
+            throw error;
+        }
+    }
 }
 export default DoctorRepository;

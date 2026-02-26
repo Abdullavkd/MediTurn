@@ -68,6 +68,22 @@ class DoctorController {
             res.status(error.status || 500).json(error.message || "Server Error");
         }
     }
+
+
+    // function to update doctor details by doctor id
+    async updateDoctorDetails(req, res) {
+        try {
+            const doctorId = req.params.id;
+            const userId = req.user.id;
+            const updateData = req.body;
+            if(!doctorId) throw new Error("Doctor ID is required");
+            if(!updateData) throw new Error("There is no data to update");
+            const updatedDoctor = await DoctorSer.updateDoctorDetails(doctorId, userId, updateData);
+            res.status(200).json({success: true, data: updatedDoctor});
+        } catch (error) {
+            res.status(error.status || 500).json({success: false, message: error.message});
+        }
+    }
 }
 
 export default DoctorController;

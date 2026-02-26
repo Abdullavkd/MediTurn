@@ -83,6 +83,23 @@ class DoctorServices {
             throw error;
         }
     }
+
+
+    // function to update doctor details by doctor id
+    async updateDoctorDetails(doctorId, userId, updateData) {
+        try {
+            const doctor = await DoctorRepo.findById(doctorId);
+            if(!doctor) throw new Error("Doctor not found to update");
+            const clinics = await ClinicRepo.findByOwner(userId);
+            const available = clinics.filter(clinic => clinic._id.toString() === doctor.clinicId.toString());
+            
+            if(doctor.userId._id.toString() !== userId && (clinics.length < 1 || available.length < 1)) throw new Error("You are not authorized to update this doctor details");
+            const updatedDoctor = await DoctorRepo.updateDoctorDetails(doctorId, updateData);
+            return updatedDoctor;
+        }catch (error) {
+            throw error;
+        }
+    }
 }
 
 export default DoctorServices;

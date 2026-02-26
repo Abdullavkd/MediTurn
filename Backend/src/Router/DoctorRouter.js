@@ -8,6 +8,7 @@ doctorRouter.get('/clinic/doctors/:clinicId', DoctorCont.doctorsByClinicId);
 doctorRouter.patch('/update/availability', AuthMiddle.verifyToken, AuthMiddle.authorize('Doctor'), DoctorCont.updateDoctorAvailability);
 doctorRouter.get('/byid/:id', DoctorCont.doctorById);
 doctorRouter.delete('/delete/:id', AuthMiddle.verifyToken, AuthMiddle.authorize('ClinicAdmin', 'Doctor'), DoctorCont.deleteDoctorById);
+doctorRouter.put('/update/:id', AuthMiddle.verifyToken, AuthMiddle.authorize('ClinicAdmin', 'Doctor'), DoctorCont.updateDoctorDetails);
 
 
 export default doctorRouter;

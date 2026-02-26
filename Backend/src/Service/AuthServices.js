@@ -127,18 +127,6 @@ class AuthServices {
     }
 
 
-    // function to update user profile
-    async updateProfile(userId, updateData) {
-        try {
-            if(!userId) throw new Error("User ID is required for updating profile");
-            const updatedUser = await UserRepo.update(userId, updateData);
-            return updatedUser;
-        } catch (error) {
-            throw error;
-        }
-    }
-
-
     // function to delete user account
     async deleteAccount(userId) {
         try {

@@ -4,8 +4,8 @@ import { UserCont, AuthMiddle } from '../Composer/composer.js';
 const userRouter = express.Router();
 
 userRouter.get('/users', AuthMiddle.verifyToken, AuthMiddle.authorize('SuperAdmin'), UserCont.getAllUsers);
-userRouter.get('/users/:id', AuthMiddle.verifyToken, AuthMiddle.authorize('SuperAdmin'), UserCont.getUserById);
-userRouter.put('/users/:id', AuthMiddle.verifyToken, AuthMiddle.authorize('SuperAdmin'), UserCont.updateUser);
-userRouter.delete('/users/:id', AuthMiddle.verifyToken, AuthMiddle.authorize('SuperAdmin'), UserCont.deleteUser);
+userRouter.get('/user-profile', AuthMiddle.verifyToken, UserCont.getUserById);
+userRouter.put('/user-update', AuthMiddle.verifyToken, UserCont.updateUser);
+userRouter.delete('/user-delete', AuthMiddle.verifyToken, UserCont.deleteUser);
 
 export default userRouter;

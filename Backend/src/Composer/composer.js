@@ -10,6 +10,8 @@ import DoctorRepository from "../Repository/DoctorRepositoty.js";
 import DoctorServices from "../Service/DoctorService.js";
 import DoctorController from "../Controller/DoctorController.js";
 import SendEmail from "../Utils/SendEmail.js";
+import UserService from "../Service/UserService.js";
+import UserController from "../Controller/UserController.js";
 
 
 
@@ -26,3 +28,5 @@ export const DoctorRepo = new DoctorRepository();
 export const DoctorSer = new DoctorServices();
 export const DoctorCont = new DoctorController();
 export const EmailUtil = new SendEmail();
+export const UserSer = new UserService();
+export const UserCont = new UserController();

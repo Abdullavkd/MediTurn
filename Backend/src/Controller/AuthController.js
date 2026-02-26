@@ -124,22 +124,6 @@ class AuthContoller {
     }
 
 
-    // function to update user profile
-    async updateProfile(req, res) {
-        try {
-            const userId = req.user.id;
-            const updateData = req.body;
-            const updatedUser = await AuthSer.updateProfile(userId, updateData);
-            res.status(200).json({
-                success: true,
-                data: updatedUser
-            })
-        } catch (error) {
-            res.status(error.status || 500).json({success: false, message: error.message});
-        }
-    }
-
-
     // function to delete user account
     async deleteAccount(req, res) {
         try {

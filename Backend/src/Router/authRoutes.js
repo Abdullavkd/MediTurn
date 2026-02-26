@@ -8,7 +8,6 @@ authRouter.post('/login', AuthCont.loginUser);
 authRouter.post('/logout', AuthMiddle.verifyToken, AuthCont.logoutUser);
 authRouter.post('/forgot-password', AuthCont.forgotPassword);
 authRouter.post('/reset-password', AuthCont.resetPassword);
-authRouter.post('/update-profile', AuthMiddle.verifyToken, AuthCont.updateProfile);
 authRouter.delete('/delete-account', AuthMiddle.verifyToken, AuthCont.deleteAccount);
 
 export default authRouter;

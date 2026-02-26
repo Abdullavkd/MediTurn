@@ -9,6 +9,7 @@ import AuthMiddleware from "../Middleware/AuthMiddleware.js";
 import DoctorRepository from "../Repository/DoctorRepositoty.js";
 import DoctorServices from "../Service/DoctorService.js";
 import DoctorController from "../Controller/DoctorController.js";
+import SendEmail from "../Utils/SendEmail.js";
 
 
 
@@ -24,3 +25,4 @@ export const AuthMiddle = new AuthMiddleware();
 export const DoctorRepo = new DoctorRepository();
 export const DoctorSer = new DoctorServices();
 export const DoctorCont = new DoctorController();
+export const EmailUtil = new SendEmail();

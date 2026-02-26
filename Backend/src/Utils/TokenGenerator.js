@@ -5,7 +5,7 @@ class TokenGenerator {
         
         const accessToken = jwt.sign({id, role},
             process.env.ACCESS_TOKEN_SECRET,
-            {expiresIn: '5m'}
+            {expiresIn: '15m'}
         )
 
         const refreshToken = jwt.sign({id, role},

@@ -1,3 +1,4 @@
+import OtpModel from "../Model/OtpModel.js";
 import userModel from "../Model/userModel.js";
 
 
@@ -59,6 +60,27 @@ class UserRepository {
             if(!deletedUser) throw new Error("User Not Found");
             return {success: true, message: "User Account Deleted Successfully"}
         } catch (error) {
+            throw error;
+        }
+    }
+
+    async saveOtp(email, otp) {
+        try {
+            if(!email || !otp) throw new Error("Email and OTP are required for saving OTP");
+            const otpData = {email, otp};
+            await OtpModel.create(otpData);
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async verifyOtp(email, otp) {
+        try {
+            if(!email || !otp) throw new Error("Email and OTP are required for verifying OTP");
+            const otpRecord = await OtpModel.findOne({email, otp});
+            if(!otpRecord) throw new Error("Invalid OTP");
+            return true;
+        }catch (error) {
             throw error;
         }
     }

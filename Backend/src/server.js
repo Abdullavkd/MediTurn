@@ -8,6 +8,7 @@ import clinicRouter from './Router/ClinicRouter.js';
 import morgan from 'morgan'
 import doctorRouter from './Router/DoctorRouter.js';
 import userRouter from './Router/UserRouter.js';
+import appointmentRouter from './Router/AppointmentRouter.js';
 
 const app = express();
 app.use(cookieParser())
@@ -25,6 +26,7 @@ app.use('/api/auth', authRouter);
 app.use('/api/clinic', clinicRouter);
 app.use('/api/doctor', doctorRouter);
 app.use('/api/user', userRouter);
+app.use('/api/appointment', appointmentRouter);
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => {

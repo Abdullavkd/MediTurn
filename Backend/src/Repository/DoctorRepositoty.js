@@ -77,5 +77,17 @@ class DoctorRepository {
             throw error;
         }
     }
+
+
+    // function to get doctor by user id
+    async getDoctorById(userId) {
+        try {
+            const doctor = await doctorModel.findOne({userId}).populate('userId', '-password');
+            if(!doctor) throw new Error("Doctor Not Found");
+            return doctor;
+        } catch (error) {
+            throw error;
+        }
+    }
 }
 export default DoctorRepository;

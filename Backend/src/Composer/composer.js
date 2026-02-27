@@ -12,6 +12,11 @@ import DoctorController from "../Controller/DoctorController.js";
 import SendEmail from "../Utils/SendEmail.js";
 import UserService from "../Service/UserService.js";
 import UserController from "../Controller/UserController.js";
+import AppointmentService from "../Service/AppointmentService.js";
+import AppointmentController from "../Controller/AppointmentController.js";
+import AppointmentRepository from "../Repository/AppointmentRepository.js";
+import ReceptionistRepository from "../Repository/ReceptionistRepository.js";
+import ReceptionistService from "../Service/ReceptionistService.js";
 
 
 
@@ -30,3 +35,8 @@ export const DoctorCont = new DoctorController();
 export const EmailUtil = new SendEmail();
 export const UserSer = new UserService();
 export const UserCont = new UserController();
+export const AppointmentSer = new AppointmentService();
+export const AppointmentCont = new AppointmentController();
+export const AppointmentRepo = new AppointmentRepository();
+export const ReceptionistRepo = new ReceptionistRepository();
+export const ReceptionistSer = new ReceptionistService();

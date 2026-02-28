@@ -4,7 +4,7 @@ import receptionistModel from "../Model/ReceptionistModel.js";
 class ReceptionistRepository {
     async findById(receptionistId) {
         try {
-            const receptionist = await receptionistModel.findById(receptionistId).select("-password");
+            const receptionist = await receptionistModel.findById(receptionistId).populate('userId', '-password');
             return receptionist;
         } catch (error) {
              throw error;
@@ -14,11 +14,8 @@ class ReceptionistRepository {
     async assignReceptionist(receptionistData) {
         try {
             const newReceptionist = await receptionistModel.create(receptionistData);
-            
-            const receptionistObj = newReceptionist.toObject();
-            delete receptionistObj.password;
 
-            return receptionistObj;
+            return newReceptionist;
         } catch (error) {
              throw error;
         }

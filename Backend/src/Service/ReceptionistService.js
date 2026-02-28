@@ -7,19 +7,19 @@ class ReceptionistService {
         try {
             if(!userId || !clinicId || !ownerId) throw new Error("All Fields are Required");
             const user = await UserRepo.findById(userId);
-
+            
             if(!user || user.role !== "Receptionist") throw new Error("There is no user or he is not a receptionist");
             const receptionists = await ReceptionistRepo.getReceptionistsByClinic(clinicId);
-
+            
             const receptionistExist = receptionists.filter(receptionist => receptionist.userId._id.toString() === userId);
             if(receptionistExist.length > 0) throw new Error("Receptionist already exists in this clinic");
-
+            
             const clinic = await ClinicRepo.findById(clinicId);
             if(!clinic) throw new Error("No Clinic found with the provided clinic ID");
             
             if(clinic.ownerId.toString() !== ownerId) throw new Error("You are not authorized to assign receptionist to this clinic");
-
-            return await ReceptionistRepo.assignReceptionist(userId, clinicId);
+            
+            return await ReceptionistRepo.assignReceptionist({userId, clinicId});
         } catch (error) {
             throw error;
         }
@@ -29,13 +29,15 @@ class ReceptionistService {
 
     
     // function to get receptionists  of a clinic by clinic id
-    async rececptionistById(clinicId) {
+    async rececptionistById(clinicId, userId) {
         try {
-            if(!clinicId) throw new Error("Clinic ID is required");
             const clinic = await ClinicRepo.findById(clinicId)
             if(!clinic) throw new Error("No Clinic found");
-
+            
             const receptionists = await ReceptionistRepo.getReceptionistsByClinic(clinicId);
+            const clinicOwner = clinic.ownerId.toString() === userId;
+            if(!clinicOwner) throw new Error("You are not authorized to view the receptionists of this clinic");
+            
             if(receptionists.length < 1) throw new Error("No receptionists Listed in the Clinic");
             return receptionists;
         } catch (error) {

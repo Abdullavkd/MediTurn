@@ -18,6 +18,8 @@ import AppointmentRepository from "../Repository/AppointmentRepository.js";
 import ReceptionistRepository from "../Repository/ReceptionistRepository.js";
 import ReceptionistService from "../Service/ReceptionistService.js";
 import ReceptionistController from "../Controller/ReceptionistController.js";
+import CounterRepository from "../Repository/CounterRepository.js";
+import CounterService from "../Service/CounterService.js";
 
 
 
@@ -42,3 +44,5 @@ export const AppointmentRepo = new AppointmentRepository();
 export const ReceptionistRepo = new ReceptionistRepository();
 export const ReceptionistSer = new ReceptionistService();
 export const ReceptionistCont = new ReceptionistController()
+export const CounterRepo = new CounterRepository();
+export const CounterSer = new CounterService();

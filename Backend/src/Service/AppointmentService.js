@@ -1,4 +1,4 @@
-import { AppointmentRepo, ClinicRepo, DoctorRepo, ReceptionistRepo, UserRepo } from "../Composer/composer.js";
+import { AppointmentRepo, ClinicRepo, CounterSer, DoctorRepo, ReceptionistRepo, UserRepo } from "../Composer/composer.js";
 
 
 
@@ -8,7 +8,9 @@ class AppointmentService {
         try {
             const clinic = await ClinicRepo.findById(clinicId);
             if(!clinic) throw new Error("Clinic not found for booking appointment");
-            const bookedAppointment = await AppointmentRepo.bookAppointment(userId, clinicId, name, phone);
+
+            const token = await CounterSer.getNextTokenNumber(clinicId.toString());
+            const bookedAppointment = await AppointmentRepo.bookAppointment(userId, clinicId, name, phone, token);
             return bookedAppointment;
         }catch (error) {
             throw error;

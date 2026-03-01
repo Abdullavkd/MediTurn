@@ -3,13 +3,14 @@ import AppointmentModel from "../Model/AppointmentModel.js";
 
 class AppointmentRepository {
     // function to book an appointment
-    async bookAppointment(userId, clinicId, name, phone) {
+    async bookAppointment(userId, clinicId, name, phone, token) {
         try {
             const newAppointment = await AppointmentModel.create({
                 patientId: userId,
                 clinicId,
                 name,
-                phone
+                phone,
+                token
             });
             return newAppointment;
         }catch (error) {

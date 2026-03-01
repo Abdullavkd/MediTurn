@@ -22,17 +22,16 @@ class AppointmentService {
             const clinic = await ClinicRepo.findById(clinicId);
             if(!clinic) throw new Error("Clinic not found for fetching appointments");
 
-            const receptionist = await ReceptionistRepo.getReceptionistById(userId);
+            const receptionist = await ReceptionistRepo.getReceptionistByUserId(userId);
             const doctor = await DoctorRepo.getDoctorById(userId);
             const user = await UserRepo.findById(userId);
-            const clinicAdmin = user && user.role === "clinicAdmin" ? user : null;
+            const clinicAdmin = user.role === "ClinicAdmin" ? user : null;
 
             if(!receptionist && !doctor && !clinicAdmin) throw new Error("Receptionist, Doctor or Clinic Admin not found for fetching appointments");
             
             if(receptionist && receptionist.clinicId.toString() !== clinicId) throw new Error("Receptionist does not belong to this clinic");
             if(doctor && doctor.clinicId.toString() !== clinicId) throw new Error("Doctor does not belong to this clinic");
-            if(clinicAdmin && userId.toString() !== clinic.userId.toString()) throw new Error("Clinic Admin does not belong to this clinic");
-            
+            if(clinicAdmin && userId.toString() !== clinic.ownerId.toString()) throw new Error("Clinic Admin does not belong to this clinic");
             const appointments = await AppointmentRepo.getAppointmentsByClinicId(clinicId);
             return appointments;
         }catch (error) {
@@ -47,9 +46,9 @@ class AppointmentService {
             const appointment = await AppointmentRepo.getAppointmentById(appointmentId);
             if(!appointment) throw new Error("Appointment not found");
 
-            const receptionist = await ReceptionistRepo.getReceptionistById(userId);
+            const receptionist = await ReceptionistRepo.getReceptionistByUserId(userId);
             const doctor = await DoctorRepo.getDoctorById(userId);
-            const patient = appointment.patientId.toString() === userId.toString() ? true : false;
+            const patient = appointment.patientId._id.toString() === userId.toString() ? true : false;
 
             if(!receptionist && !doctor && !patient) throw new Error("Receptionist, Doctor or Patient not found for fetching appointment details");
 
@@ -69,7 +68,7 @@ class AppointmentService {
             const appointment = await AppointmentRepo.getAppointmentById(appointmentId);
             if(!appointment) throw new Error("Appointment not found for updating");
 
-            const patient = appointment.patientId.toString() === userId.toString() ? "patient" : null;
+            const patient = appointment.patientId._id.toString() === userId.toString() ? "patient" : null;
             if(!patient) throw new Error("Only patient can update appointment details");
             const updatedAppointment = await AppointmentRepo.updateAppointmentById(appointmentId, updateData);
             return updatedAppointment;
@@ -86,7 +85,7 @@ class AppointmentService {
             if(!appointment) throw new Error("Appointment not found for updating status");
 
             const doctor = await DoctorRepo.getDoctorById(userId);
-            const receptionist = await ReceptionistRepo.getReceptionistById(userId);
+            const receptionist = await ReceptionistRepo.getReceptionistByUserId(userId);
 
             if(!doctor && !receptionist ) throw new Error("Doctor or Receptionist not found for updating appointment status");
 
@@ -107,10 +106,10 @@ class AppointmentService {
             const appointment = await AppointmentRepo.getAppointmentById(appointmentId);
             if(!appointment) throw new Error("Appointment not found for cancelling");
 
-            const patient = appointment.patientId.toString() === userId.toString() ? "patient" : null;
+            const patient = appointment.patientId._id.toString() === userId.toString() ? "patient" : null;
             if(!patient) throw new Error("Only patient can cancel appointment");
 
-            const updatedAppointment = await AppointmentRepo.updateAppointmentById(appointmentId, {status: "cancelled"});
+            const updatedAppointment = await AppointmentRepo.updateAppointmentById(appointmentId, {status: "Cancelled"});
             return updatedAppointment;
         } catch (error) {
             throw error;

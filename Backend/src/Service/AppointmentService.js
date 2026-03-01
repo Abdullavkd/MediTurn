@@ -1,86 +1,118 @@
-import { AppointmentRepo } from "../Composer/composer.js";
+import { AppointmentRepo, ClinicRepo, DoctorRepo, ReceptionistRepo, UserRepo } from "../Composer/composer.js";
+
 
 
 class AppointmentService {
-    async createAppointment(appointmentData) {
+    // function to book an appointment
+    async bookAppointment(userId, clinicId, name, phone) {
         try {
-            const {clinicId, patientId } = appointmentData;
-            if(!clinicId || !patientId) throw new Error("Clinic ID and Patient ID are required");
-            const appointment = await AppointmentRepo.createAppointment(clinicId, patientId, appointmentTime);
+            const clinic = await ClinicRepo.findById(clinicId);
+            if(!clinic) throw new Error("Clinic not found for booking appointment");
+            const bookedAppointment = await AppointmentRepo.bookAppointment(userId, clinicId, name, phone);
+            return bookedAppointment;
+        }catch (error) {
+            throw error;
+        }
+    }
+
+
+    // get all appointment by clinic id
+    async getAppointmentsByClinicId(clinicId, userId) {
+        try {
+            const clinic = await ClinicRepo.findById(clinicId);
+            if(!clinic) throw new Error("Clinic not found for fetching appointments");
+
+            const receptionist = await ReceptionistRepo.getReceptionistById(userId);
+            const doctor = await DoctorRepo.getDoctorById(userId);
+            const user = await UserRepo.findById(userId);
+            const clinicAdmin = user && user.role === "clinicAdmin" ? user : null;
+
+            if(!receptionist && !doctor && !clinicAdmin) throw new Error("Receptionist, Doctor or Clinic Admin not found for fetching appointments");
+            
+            if(receptionist && receptionist.clinicId.toString() !== clinicId) throw new Error("Receptionist does not belong to this clinic");
+            if(doctor && doctor.clinicId.toString() !== clinicId) throw new Error("Doctor does not belong to this clinic");
+            if(clinicAdmin && userId.toString() !== clinic.userId.toString()) throw new Error("Clinic Admin does not belong to this clinic");
+            
+            const appointments = await AppointmentRepo.getAppointmentsByClinicId(clinicId);
+            return appointments;
+        }catch (error) {
+            throw error;
+        }
+    }
+
+
+    // get appointment details by appointment id
+    async getAppointmentById(appointmentId, userId) {
+        try {
+            const appointment = await AppointmentRepo.getAppointmentById(appointmentId);
+            if(!appointment) throw new Error("Appointment not found");
+
+            const receptionist = await ReceptionistRepo.getReceptionistById(userId);
+            const doctor = await DoctorRepo.getDoctorById(userId);
+            const patient = appointment.patientId.toString() === userId.toString() ? true : false;
+
+            if(!receptionist && !doctor && !patient) throw new Error("Receptionist, Doctor or Patient not found for fetching appointment details");
+
+            if(receptionist && receptionist.clinicId.toString() !== appointment.clinicId.toString()) throw new Error("Receptionist does not belong to this clinic");
+            if(doctor && doctor.clinicId.toString() !== appointment.clinicId.toString()) throw new Error("Doctor does not belong to this clinic");
+
             return appointment;
-        } catch (error) {
-            console.error(`Service Error (createAppointment): ${error.message}`);
+        }catch (error) {
             throw error;
         }
     }
 
-    // function to get appointments by clinic ID
-    async getAppointmentsByClinic(clinicId) {
-        try {
-            if(!clinicId) throw new Error("Clinic ID is required");
-            const appointments = await AppointmentRepo.getAppointmentsByClinic(clinicId);
-            return appointments;
-        } catch (error) {
-            console.error(`Service Error (getAppointmentsByClinic): ${error.message}`);
-            throw error;
-        }
-    }
 
-    // function to get appointments by patient ID
-    async getAppointmentsByPatient(patientId) {
+    // function to update appointment details by appointment id
+    async updateAppointmentById(appointmentId, updateData, userId) {
         try {
-            if(!patientId) throw new Error("Patient ID is required");
-            const appointments = await AppointmentRepo.getAppointmentsByPatient(patientId);
-            return appointments;
-        } catch (error) {
-            console.error(`Service Error (getAppointmentsByPatient): ${error.message}`);
-            throw error;
-        }
-    }
+            const appointment = await AppointmentRepo.getAppointmentById(appointmentId);
+            if(!appointment) throw new Error("Appointment not found for updating");
 
-    // function to update appointment status
-    async updateAppointmentStatus(appointmentId, status) {
-        try {
-            if(!appointmentId || !status) throw new Error("Appointment ID and Status are required");
-            const updatedAppointment = await AppointmentRepo.updateAppointmentStatus(appointmentId, status);
+            const patient = appointment.patientId.toString() === userId.toString() ? "patient" : null;
+            if(!patient) throw new Error("Only patient can update appointment details");
+            const updatedAppointment = await AppointmentRepo.updateAppointmentById(appointmentId, updateData);
             return updatedAppointment;
         } catch (error) {
-            console.error(`Service Error (updateAppointmentStatus): ${error.message}`);
             throw error;
         }
     }
 
-    // function to delete an appointment
-    async deleteAppointment(appointmentId) {
-        try {
-            if(!appointmentId) throw new Error("Appointment ID is required");
-            const deletedAppointment = await AppointmentRepo.deleteAppointment(appointmentId);
-            return deletedAppointment;
-        } catch (error) {
-            console.error(`Service Error (deleteAppointment): ${error.message}`);
-            throw error;
-        }
-    }
 
-    // function to get an appointment by ID
-    async getAppointmentById(appointmentId) {
+    // function to update appointment status by appointment id
+    async updateAppointmentStatus(appointmentId, status, userId) {
         try {
-            if(!appointmentId) throw new Error("Appointment ID is required");
             const appointment = await AppointmentRepo.getAppointmentById(appointmentId);
-            return appointment;
+            if(!appointment) throw new Error("Appointment not found for updating status");
+
+            const doctor = await DoctorRepo.getDoctorById(userId);
+            const receptionist = await ReceptionistRepo.getReceptionistById(userId);
+
+            if(!doctor && !receptionist ) throw new Error("Doctor or Receptionist not found for updating appointment status");
+
+            if(doctor && doctor.clinicId.toString() !== appointment.clinicId.toString()) throw new Error("Doctor does not belong to this clinic");
+            if(receptionist && receptionist.clinicId.toString() !== appointment.clinicId.toString()) throw new Error("Receptionist does not belong to this clinic");
+
+            const updatedAppointment = await AppointmentRepo.updateAppointmentById(appointmentId, {status});
+            return updatedAppointment;
         } catch (error) {
-            console.error(`Service Error (getAppointmentById): ${error.message}`);
             throw error;
         }
     }
 
-    // function to get all appointments
-    async getAllAppointments() {
+
+    // function to cancel appointment by appointment id
+    async cancelAppointmentByPatient(appointmentId, userId) {
         try {
-            const appointments = await AppointmentRepo.getAllAppointments();
-            return appointments;
+            const appointment = await AppointmentRepo.getAppointmentById(appointmentId);
+            if(!appointment) throw new Error("Appointment not found for cancelling");
+
+            const patient = appointment.patientId.toString() === userId.toString() ? "patient" : null;
+            if(!patient) throw new Error("Only patient can cancel appointment");
+
+            const updatedAppointment = await AppointmentRepo.updateAppointmentById(appointmentId, {status: "cancelled"});
+            return updatedAppointment;
         } catch (error) {
-            console.error(`Service Error (getAllAppointments): ${error.message}`);
             throw error;
         }
     }

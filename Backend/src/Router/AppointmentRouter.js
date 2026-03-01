@@ -3,12 +3,11 @@ import { AuthMiddle, AppointmentCont } from "../Composer/composer.js";
 
 const appointmentRouter = express.Router();
 
-appointmentRouter.post('/book', AuthMiddle.verifyToken, AuthMiddle.authorize('Patient'), AppointmentCont.bookAppointment);
-appointmentRouter.get('/allappointments', AuthMiddle.verifyToken, AuthMiddle.authorize('Owner'), AppointmentCont.getAllAppointments);
-appointmentRouter.patch('/update/status/:appointmentId', AuthMiddle.verifyToken, AuthMiddle.authorize('Doctor'), AppointmentCont.updateAppointmentStatus);
-appointmentRouter.delete('/delete/:appointmentId', AuthMiddle.verifyToken, AuthMiddle.authorize('Patient'), AppointmentCont.deleteAppointment);
-appointmentRouter.get('/clinic/:clinicId', AuthMiddle.verifyToken, AppointmentCont.getAppointmentsByClinic);
-appointmentRouter.get('/patient/:patientId', AuthMiddle.verifyToken, AppointmentCont.getAppointmentsByPatient);
-appointmentRouter.get('/:appointmentId', AuthMiddle.verifyToken, AppointmentCont.getAppointmentById);
+appointmentRouter.post('/book/:clinicId', AuthMiddle.verifyToken, AuthMiddle.authorize('Patient'), AppointmentCont.bookAppointment);
+appointmentRouter.get('/appointments/:clinicId', AuthMiddle.verifyToken, AuthMiddle.authorize('Doctor', 'Receptionist', 'ClinicAdmin'), AppointmentCont.getAppointmentsByClinicId);
+appointmentRouter.get('/appointment/:appointmentId', AuthMiddle.verifyToken, AuthMiddle.authorize('Patient', 'Doctor', 'Receptionist'), AppointmentCont.getAppointmentById);
+appointmentRouter.put('/update/:appointmentId', AuthMiddle.verifyToken, AuthMiddle.authorize('Patient'), AppointmentCont.updateAppointmentById);
+appointmentRouter.patch('/status/:appointmentId', AuthMiddle.verifyToken, AuthMiddle.authorize('Doctor', 'Receptionist'), AppointmentCont.updateAppointmentStatusById);
+appointmentRouter.delete('/cancel/:appointmentId', AuthMiddle.verifyToken, AuthMiddle.authorize('Patient'), AppointmentCont.cancelAppointmentById);
 
 export default appointmentRouter;

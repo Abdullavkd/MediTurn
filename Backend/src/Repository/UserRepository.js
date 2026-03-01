@@ -1,3 +1,4 @@
+import OtpModel from "../Model/OtpModel.js";
 import userModel from "../Model/userModel.js";
 
 
@@ -24,11 +25,10 @@ class UserRepository {
 
     async update(id, updateData) {
         try {
-            if(!id) throw new Error("User ID is required for user updating")
             const updatedUser = await userModel.findByIdAndUpdate(
                 id,
                 {$set: updateData},
-                {new: true, nunValidators: true}
+                {new: true, runValidators: true}
             ).select("-password");
 
             if(!updatedUser) throw new Error("User not found to update");
@@ -54,11 +54,40 @@ class UserRepository {
 
     async delete(id) {
         try {
-            if(!id) throw new Error("User ID is required for user deleting");
             const deletedUser = await userModel.findByIdAndDelete(id);
             if(!deletedUser) throw new Error("User Not Found");
             return {success: true, message: "User Account Deleted Successfully"}
         } catch (error) {
+            throw error;
+        }
+    }
+
+    async getAllUsers() {
+        try {
+            const users = await userModel.find({}).select("-password");
+            return users;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async saveOtp(email, otp) {
+        try {
+            if(!email || !otp) throw new Error("Email and OTP are required for saving OTP");
+            const otpData = {email, otp};
+            await OtpModel.create(otpData);
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async verifyOtp(email, otp) {
+        try {
+            if(!email || !otp) throw new Error("Email and OTP are required for verifying OTP");
+            const otpRecord = await OtpModel.findOne({email, otp});
+            if(!otpRecord) throw new Error("Invalid OTP");
+            return true;
+        }catch (error) {
             throw error;
         }
     }

@@ -1,7 +1,6 @@
-import { mongoose } from "mongoose";
+import mongoose from "mongoose";
 
-
-const AppointmentSchema = mongoose.Schema({
+const appointmentSchema = mongoose.Schema({
     patientId: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
@@ -12,16 +11,20 @@ const AppointmentSchema = mongoose.Schema({
         required: true,
         ref: 'clinic'
     },
-    tokenNumber: {
-        type: Number,
+    name: {
+        type: String,
+        required: true
+    },
+    phone: {
+        type: String,
         required: true
     },
     status: {
         type: String,
-        required: true,
-        enum: ["Pending", "Checked-in", "In-Progress", "Completed", "Cancelled"],
-        default: "Pending"
+        enum: ['Pending', 'Scheduled', 'In Progress', 'Completed', 'Cancelled'],
+        default: 'Pending'
     }
-},{timestamps: true});
+}, { timestamps: true });
 
-export default mongoose.model('appointment', AppointmentSchema);
+const AppointmentModel = mongoose.model('appointment', appointmentSchema);
+export default AppointmentModel;

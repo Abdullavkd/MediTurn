@@ -1,88 +1,53 @@
-import { ClinicRepo } from "../Composer/composer.js";
 import AppointmentModel from "../Model/AppointmentModel.js";
 
 
 class AppointmentRepository {
-    // function to create a new appointment
-    async createAppointment(patientId, clinicId) {
+    // function to book an appointment
+    async bookAppointment(userId, clinicId, name, phone) {
         try {
-            if(!patientId || !clinicId) throw new Error("Patient ID and Clinic ID are required");
-            const tokenNumber = await ClinicRepo.findById(clinicId).then(clinic => {
-                if(!clinic) throw new Error("No Clinic Found with the provided ID");
-                return clinic.tokensPerDay + 1;
+            const newAppointment = await AppointmentModel.create({
+                patientId: userId,
+                clinicId,
+                name,
+                phone
             });
-            await ClinicRepo.findByIdAndUpdate(clinicId, {$inc: {tokensPerDay: 1}}, {new: true}); 
-            
-            const appointment = await AppointmentModel.create({patientId, clinicId, tokenNumber});
-            return appointment;
-        } catch (error) {
-            console.error(`Repo Error (createAppointment): ${error.message}`);
+            return newAppointment;
+        }catch (error) {
             throw error;
         }
     }
 
-    // function to get appointments by clinic ID
-    async getAppointmentsByClinic(clinicId) {
+    // get all appointment by clinic id
+    async getAppointmentsByClinicId(clinicId) {
         try {
-            if(!clinicId) throw new Error("Clinic ID is required");
-            return await AppointmentModel.find({clinicId}).populate('patientId').populate('clinicId');
-        } catch (error) {
-            console.error(`Repo Error (getAppointmentsByClinic): ${error.message}`);
-            throw error;
-        }
-    }
-
-    // function to get appointments by patient ID
-    async getAppointmentsByPatient(patientId) {
-        try {
-            if(!patientId) throw new Error("Patient ID is required");
-            return await AppointmentModel.find({patientId}).populate('patientId').populate('clinicId');
-        } catch (error) {
-            console.error(`Repo Error (getAppointmentsByPatient): ${error.message}`);
-            throw error;
-        }
-    }
-
-    // function to update appointment status
-    async updateAppointmentStatus(appointmentId, status) {
-        try {
-            if(!appointmentId || !status) throw new Error("Appointment ID and Status are required");
-            return await AppointmentModel.findByIdAndUpdate(appointmentId, {status}, {new: true, runValidators: true}).populate('patientId').populate('clinicId');
-        } catch (error) {
-            console.error(`Repo Error (updateAppointmentStatus): ${error.message}`);
-            throw error;
-        }
-    }
-
-    // function to delete an appointment
-    async deleteAppointment(appointmentId) {
-        try {
-            if(!appointmentId) throw new Error("Appointment ID is required");
-            return await AppointmentModel.findByIdAndDelete(appointmentId);
-        } catch (error) {
-            console.error(`Repo Error (deleteAppointment): ${error.message}`);
+            return await AppointmentModel.find({clinicId}).populate('patientId', '-password');
+        }catch (error) {
             throw error;
         }
     }
 
 
-    // function to get an appointment by ID
+    // get appointment details by appointment id
     async getAppointmentById(appointmentId) {
         try {
-            if(!appointmentId) throw new Error("Appointment ID is required");
-            return await AppointmentModel.findById(appointmentId).populate('patientId').populate('clinicId');
-        } catch (error) {
-            console.error(`Repo Error (getAppointmentById): ${error.message}`);
+            return await AppointmentModel.findById(appointmentId).populate('patientId', '-password');
+        }catch (error) {
             throw error;
         }
-    }  
+    }
 
-    // function to get all appointments
-    async getAllAppointments() {
+
+    // function to update appointment details by appointment id
+    async updateAppointmentById(appointmentId, updateData) {
         try {
-            return await AppointmentModel.find({}).populate('patientId').populate('clinicId');
-        } catch (error) {
-            console.error(`Repo Error (getAllAppointments): ${error.message}`);
+            const updatedAppointment = await AppointmentModel.findByIdAndUpdate(
+                appointmentId,
+                {$set: updateData},
+                {new: true, runValidators: true}
+            ).populate('patientId', '-password');
+            if(!updatedAppointment) throw new Error("Appointment not found to update");
+            return updatedAppointment;
+        }catch (error) {
             throw error;
         }
     }

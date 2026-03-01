@@ -9,9 +9,15 @@ import AuthMiddleware from "../Middleware/AuthMiddleware.js";
 import DoctorRepository from "../Repository/DoctorRepositoty.js";
 import DoctorServices from "../Service/DoctorService.js";
 import DoctorController from "../Controller/DoctorController.js";
-import AppointmentRepository from "../Repository/AppointmentRepository.js";
+import SendEmail from "../Utils/SendEmail.js";
+import UserService from "../Service/UserService.js";
+import UserController from "../Controller/UserController.js";
 import AppointmentService from "../Service/AppointmentService.js";
 import AppointmentController from "../Controller/AppointmentController.js";
+import AppointmentRepository from "../Repository/AppointmentRepository.js";
+import ReceptionistRepository from "../Repository/ReceptionistRepository.js";
+import ReceptionistService from "../Service/ReceptionistService.js";
+import ReceptionistController from "../Controller/ReceptionistController.js";
 
 
 
@@ -27,6 +33,12 @@ export const AuthMiddle = new AuthMiddleware();
 export const DoctorRepo = new DoctorRepository();
 export const DoctorSer = new DoctorServices();
 export const DoctorCont = new DoctorController();
-export const AppointmentRepo = new AppointmentRepository();
+export const EmailUtil = new SendEmail();
+export const UserSer = new UserService();
+export const UserCont = new UserController();
 export const AppointmentSer = new AppointmentService();
 export const AppointmentCont = new AppointmentController();
+export const AppointmentRepo = new AppointmentRepository();
+export const ReceptionistRepo = new ReceptionistRepository();
+export const ReceptionistSer = new ReceptionistService();
+export const ReceptionistCont = new ReceptionistController()

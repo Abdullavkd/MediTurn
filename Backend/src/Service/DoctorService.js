@@ -5,12 +5,21 @@ import { ClinicRepo, DoctorRepo, UserRepo } from "../Composer/composer.js";
 class DoctorServices {
 
     // function to assing a doctor to a clinic
-    async newDoctor(userId, clinicId, specialization, isAvailable, AvgTimePerPatient) {
+    async newDoctor(userId, clinicId, specialization, isAvailable, breakTime, adminId) {
         try {
-            if(!userId || !clinicId || !specialization || !isAvailable || !AvgTimePerPatient) throw new Error("All Fields are Required");
+            if(!userId || !clinicId || !specialization || !isAvailable || !adminId) throw new Error("All Fields are Required");
             const user = await UserRepo.findById(userId);
             if(!user || user.role !== "Doctor") throw new Error("There is no user or he is not a doctor");
-            return await DoctorRepo.assignDoctor(userId, clinicId, specialization, isAvailable, AvgTimePerPatient);
+            const doctors = await DoctorRepo.getDoctorsByClinic(clinicId);
+            const doctorExist = doctors.find(doctor => doctor.userId._id.toString() === userId);
+            if(doctorExist) throw new Error("Doctor already exists in this clinic");
+
+            const clinic = await ClinicRepo.findById(clinicId);
+            if(!clinic) throw new Error("No Clinic found with the provided clinic ID");
+            console.log(clinic, adminId) 
+            if(clinic.ownerId.toString() !== adminId) throw new Error("You are not authorized to assign doctor to this clinic");
+
+            return await DoctorRepo.assignDoctor(userId, clinicId, specialization, isAvailable, breakTime);
         } catch (error) {
             throw error;
         }
@@ -31,62 +40,63 @@ class DoctorServices {
     }
 
 
-    // function to update doctor availability
-    async updateIsAvailable(userId, isAvailable) {
+    // function to update doctor availability by doctor id
+    async updateDoctorAvailability(doctorId, isAvailable) {
         try {
-            if(!userId) throw new Error("User ID and isAvailable are required");
-            const user = await UserRepo.findById(userId);
-            if(!user || user.role !== 'Doctor') throw new Error("User is not a Doctor");
-            return await DoctorRepo.updateAvailability(userId, isAvailable);
+            if(!doctorId || typeof(isAvailable) !== 'boolean') throw new Error("Doctor ID and availability status are required");
+            const user = await UserRepo.findById(doctorId);
+            if(!user || user.role !== "Doctor") throw new Error("Doctor not found");
+            const updatedDoctor = await DoctorRepo.updateDoctorAvailability(doctorId, isAvailable);
+            return updatedDoctor;
         } catch (error) {
             throw error;
         }
     }
 
 
-    // function to get a doctor details by userId
-    async getDoctorById(userId) {
+    // function to find doctor by doctorId
+    async doctorById(doctorId) {
         try {
-            if(!userId) throw new Error("User ID is required");
-            const user = await DoctorRepo.getDoctorById(userId);
-            if(!user) throw new Error("No Doctor with provided id");
-            return user;
+            if(!doctorId) throw new Error("Doctor ID is required");
+            const doctor = await DoctorRepo.findById(doctorId);
+            if(!doctor) throw new Error("Doctor not found");
+            return doctor;
         } catch (error) {
             throw error;
         }
     }
 
 
-    // function to get available slots
-    async generateSlotes(userId) {
+    // function to delete doctor by doctor id
+    async deleteDoctorById(doctorId, userId) {
         try {
-            const slotes = [];
-            const doctor = await DoctorRepo.getDoctorById(userId);
-            if(!doctor) throw new Error("No Doctor with provided userId");
-            const clinic = await ClinicRepo.findById(doctor.clinicId);
-            if(!clinic) throw new Error("clinic not available");
-
-            let startingTime = new Date(`2026-01-01T${clinic.workingHours.start}:00`);
-            let endingTime = new Date(`2026-01-01T${clinic.workingHours.end}:00`);
+            if(!doctorId) throw new Error("Doctor ID is required for deleting doctor");
+            const doctor = await DoctorRepo.findById(doctorId);
+            if(!doctor) throw new Error("Doctor not found to delete");
+            const clinics = await ClinicRepo.findByOwner(userId);
+            const available = clinics.filter(clinic => clinic._id.toString() === doctor.clinicId.toString());
             
-            // if(endingTime <= startingTime) endingTime += 12 * 60 * 60 * 1000;
-            // console.log(endingTime) 
-
-            while(startingTime < endingTime) {
-                const nextSlote = new Date(startingTime.getTime() + doctor.AvgTimePerPatient * 60000);
-                
-                if(nextSlote <= endingTime) {
-                    slotes.push({
-                        time: startingTime.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit', hour12: false}),
-                        isBooked: false
-                    })
-                }
-
-                startingTime = nextSlote;
-            }
             
-            return slotes;
+            if(doctor.userId._id.toString() !== userId && (clinics.length < 1 || available.length < 1)) throw new Error("You are not authorized to delete this doctor");
+            return await DoctorRepo.deleteById(doctorId);
         } catch (error) {
+            throw error;
+        }
+    }
+
+
+    // function to update doctor details by doctor id
+    async updateDoctorDetails(doctorId, userId, updateData) {
+        try {
+            const doctor = await DoctorRepo.findById(doctorId);
+            if(!doctor) throw new Error("Doctor not found to update");
+            const clinics = await ClinicRepo.findByOwner(userId);
+            const available = clinics.filter(clinic => clinic._id.toString() === doctor.clinicId.toString());
+            
+            if(doctor.userId._id.toString() !== userId && (clinics.length < 1 || available.length < 1)) throw new Error("You are not authorized to update this doctor details");
+            const updatedDoctor = await DoctorRepo.updateDoctorDetails(doctorId, updateData);
+            return updatedDoctor;
+        }catch (error) {
             throw error;
         }
     }

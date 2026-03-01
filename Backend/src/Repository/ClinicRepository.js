@@ -40,6 +40,29 @@ class ClinicRepository {
             throw error;
         }
     }
+
+
+    async update(clinicId, updateData) {
+        try {
+            const updatedClinic = await ClinicModel.findByIdAndUpdate(
+                clinicId,
+                {$set: updateData},
+                {new: true, runValidators: true}
+            );
+            return updatedClinic;
+        } catch (error) {             throw error;
+        }
+    }
+
+
+    async delete(clinicId) {
+        try {
+            const deletedClinic = await ClinicModel.findByIdAndDelete(clinicId);
+            return {success: true, message: "Clinic Deleted Successfully"}
+        } catch (error) {
+             throw error;
+        }
+    }
 }
 
 export default ClinicRepository;

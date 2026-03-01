@@ -22,13 +22,13 @@ const userSchema = mongoose.Schema({
     role: {
         type: String,
         required: true,
-        enum: ['Patient', 'Doctor', 'Owner', 'SuperAdmin', 'Receptionist'],
+        enum: ['Patient', 'Doctor', 'ClinicAdmin', 'SuperAdmin', 'Receptionist'],
         default: 'Patient'
     },
     status: {
         type: String,
         required: true,
-        enum: ['active', 'blocked', 'onBreak'],
+        enum: ['active', 'blocked'],
         default: 'active'
     }
 },{timestamps: true});

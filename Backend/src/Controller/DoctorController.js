@@ -6,10 +6,13 @@ class DoctorController {
     // function to add new doctor to a clinic
     async addNewDoctor(req, res) {
         try {
-            const {userId, specialization, isAvailable, AvgTimePerPatient} = req.body;
+            const {userId, specialization, isAvailable, breakTime} = req.body;
             const {clinicId} = req.params;
-            console.log(userId, specialization, isAvailable, AvgTimePerPatient, clinicId)
-            const newDoctor = await DoctorSer.newDoctor(userId, clinicId, specialization, isAvailable, AvgTimePerPatient);
+            const adminId = req.user.id;
+            
+            const breakTimes = breakTime ? breakTime.split(',').map(time => time.trim()) : [];
+            
+            const newDoctor = await DoctorSer.newDoctor(userId, clinicId, specialization, isAvailable, [...breakTimes], adminId);
             res.status(201).json({success: true, data: newDoctor});
         } catch (error) {
             res.status(error.status || 500).json(error.message || "Server Error");
@@ -29,39 +32,56 @@ class DoctorController {
     }
 
 
-    // function to update doctor availability
-    async updateIsAvailable(req, res) {
+    // function to update doctor availability by doctor id
+    async updateDoctorAvailability(req, res) {
         try {
-            const {userId} = req.params;
+            const doctorId = req.user.id;
             const {isAvailable} = req.body;
-            const updated = await DoctorSer.updateIsAvailable(userId, isAvailable);
-            res.status(200).json({success: true, data: updated})
+            const updatedDoctor = await DoctorSer.updateDoctorAvailability(doctorId, isAvailable);
+            res.status(200).json({success: true, data: updatedDoctor});
         } catch (error) {
             res.status(error.status || 500).json(error.message || "Server Error");
         }
     }
 
 
-    // function to get a doctor by userId
-    async getDoctorByuserId(req, res) {
+    // function to get doctor by doctor id
+    async doctorById(req, res) {
         try {
-            const {userId} = req.params;
-            const user = await DoctorSer.getDoctorById(userId);
-            res.status(200).json({success: true, data: user})
+            const doctorId = req.params.id;
+            const doctor = await DoctorSer.doctorById(doctorId);
+            res.status(200).json({success: true, data: doctor});
         } catch (error) {
-            throw error;
+            res.status(error.status || 500).json(error.message || "Server Error");
         }
     }
 
 
-    // function to generate slotes
-    async generateSlotes(req, res) {
+    // function to delete doctor by doctor id
+    async deleteDoctorById(req, res) {
         try {
-            const {userId} = req.params;
-            const slotes = await DoctorSer.generateSlotes(userId);
-            res.status(201).json({success: true, data: slotes})
+            const doctorId = req.params.id;
+            const userId = req.user.id;
+            const result = await DoctorSer.deleteDoctorById(doctorId, userId);
+            res.status(200).json(result);
         } catch (error) {
-            res.status(error.status || 500).json(error.message || "Server Error")
+            res.status(error.status || 500).json(error.message || "Server Error");
+        }
+    }
+
+
+    // function to update doctor details by doctor id
+    async updateDoctorDetails(req, res) {
+        try {
+            const doctorId = req.params.id;
+            const userId = req.user.id;
+            const updateData = req.body;
+            if(!doctorId) throw new Error("Doctor ID is required");
+            if(!updateData) throw new Error("There is no data to update");
+            const updatedDoctor = await DoctorSer.updateDoctorDetails(doctorId, userId, updateData);
+            res.status(200).json({success: true, data: updatedDoctor});
+        } catch (error) {
+            res.status(error.status || 500).json({success: false, message: error.message});
         }
     }
 }

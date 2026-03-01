@@ -83,7 +83,6 @@ class DoctorRepository {
     async getDoctorById(userId) {
         try {
             const doctor = await doctorModel.findOne({userId}).populate('userId', '-password');
-            if(!doctor) throw new Error("Doctor Not Found");
             return doctor;
         } catch (error) {
             throw error;

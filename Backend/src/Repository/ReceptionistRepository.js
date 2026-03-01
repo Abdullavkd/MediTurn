@@ -41,6 +41,16 @@ class ReceptionistRepository {
              throw error;
         }
     }
+
+
+    async getReceptionistByUserId(userId) {
+        try {
+            const receptionist = await receptionistModel.findOne({userId}).populate('userId', '-password');
+            return receptionist;
+        } catch (error) {
+             throw error;
+        }
+    }
 }
 
 export default ReceptionistRepository;

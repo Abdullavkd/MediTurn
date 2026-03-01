@@ -8,6 +8,6 @@ appointmentRouter.get('/appointments/:clinicId', AuthMiddle.verifyToken, AuthMid
 appointmentRouter.get('/appointment/:appointmentId', AuthMiddle.verifyToken, AuthMiddle.authorize('Patient', 'Doctor', 'Receptionist'), AppointmentCont.getAppointmentById);
 appointmentRouter.put('/update/:appointmentId', AuthMiddle.verifyToken, AuthMiddle.authorize('Patient'), AppointmentCont.updateAppointmentById);
 appointmentRouter.patch('/status/:appointmentId', AuthMiddle.verifyToken, AuthMiddle.authorize('Doctor', 'Receptionist'), AppointmentCont.updateAppointmentStatusById);
-appointmentRouter.delete('/cancel/:appointmentId', AuthMiddle.verifyToken, AuthMiddle.authorize('Patient'), AppointmentCont.cancelAppointmentById);
+appointmentRouter.put('/cancel/:appointmentId', AuthMiddle.verifyToken, AuthMiddle.authorize('Patient'), AppointmentCont.cancelAppointmentById);
 
 export default appointmentRouter;

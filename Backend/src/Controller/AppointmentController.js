@@ -94,7 +94,7 @@ class AppointmentController {
             const {status} = req.body;
             if(!appointmentId || !status) throw new Error("Appointment ID and status are required for updating appointment status");
             const userId = req.user.id;
-            const updatedAppointment = await AppointmentSer.updateAppointmentStatusById(appointmentId, status, userId);
+            const updatedAppointment = await AppointmentSer.updateAppointmentStatus(appointmentId, status, userId);
             res.status(200).json({
                 success: true,
                 message: "Appointment status updated successfully",

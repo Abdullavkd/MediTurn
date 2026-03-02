@@ -14,6 +14,19 @@ class CounterService {
              throw error;
         }
     }
+
+    // function to call next token
+    async nextToken() {
+        try {
+            const today = new Date().toISOString().split('T')[0];
+            const tokenName = `token_${today}`;
+
+            const nextTokenNumber = await CounterRepo.getNextTokenNumber(tokenName);
+            return nextTokenNumber;
+        } catch (error) {
+            throw error;
+        }
+    }
 }
 
 export default CounterService;

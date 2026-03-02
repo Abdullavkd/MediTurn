@@ -20,6 +20,8 @@ import ReceptionistService from "../Service/ReceptionistService.js";
 import ReceptionistController from "../Controller/ReceptionistController.js";
 import CounterRepository from "../Repository/CounterRepository.js";
 import CounterService from "../Service/CounterService.js";
+import QueueController from "../Controller/QueueController.js";
+import QueueService from "../Service/QueueService.js";
 
 
 
@@ -46,3 +48,5 @@ export const ReceptionistSer = new ReceptionistService();
 export const ReceptionistCont = new ReceptionistController()
 export const CounterRepo = new CounterRepository();
 export const CounterSer = new CounterService();
+export const QueueCont = new QueueController();
+export const QueueSer = new QueueService();

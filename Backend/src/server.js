@@ -11,6 +11,7 @@ import userRouter from './Router/UserRouter.js';
 import appointmentRouter from './Router/AppointmentRouter.js';
 import receptionistRouter from './Router/ReceptionistRouter.js';
 import queueRouter from './Router/QueueRouter.js';
+import reportRouter from './Router/ReportRouter.js';
 
 const app = express();
 app.use(cookieParser())
@@ -31,6 +32,7 @@ app.use('/api/user', userRouter);
 app.use('/api/appointment', appointmentRouter);
 app.use('/api/receptionist', receptionistRouter);
 app.use('/api/queue', queueRouter);
+app.use('/api/report', reportRouter);
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => {

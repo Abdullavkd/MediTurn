@@ -22,6 +22,9 @@ import CounterRepository from "../Repository/CounterRepository.js";
 import CounterService from "../Service/CounterService.js";
 import QueueController from "../Controller/QueueController.js";
 import QueueService from "../Service/QueueService.js";
+import ReportRepository from "../Repository/ReportRepository.js";
+import ReportService from "../Service/ReportService.js";
+import ReportController from "../Controller/ReportController.js";
 
 
 
@@ -50,3 +53,6 @@ export const CounterRepo = new CounterRepository();
 export const CounterSer = new CounterService();
 export const QueueCont = new QueueController();
 export const QueueSer = new QueueService();
+export const ReportRepo = new ReportRepository();
+export const ReportSer = new ReportService();
+export const ReportCont = new ReportController();

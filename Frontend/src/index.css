@@ -1,1 +1,11 @@
 @import 'tailwindcss';
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+@theme {
+  /* This overrides the default sans font with Montserrat */
+  --font-sans: "Montserrat", ui-sans-serif, system-ui, sans-serif;
+  
+  /* Or, if you want to keep a separate brand font variable */
+  --font-brand: "Montserrat", sans-serif;
+}

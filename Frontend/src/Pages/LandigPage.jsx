@@ -16,149 +16,140 @@ const LandigPage = () => {
 
     const steps = [
         {id: 1, number: '01', title: 'Choose Your Clinic', paragraph: 'Search and select from our network of verified clinics and hospitals near you.'},
-        {id: 1, number: '02', title: 'Book a Token', paragraph: 'Pick your doctor, select a time slot, and receive your token number instantly.'},
-        {id: 1, number: '03', title: 'Track Your Turn', paragraph: "Monitor the live queue from anywhere. Get notified when it's almost your turn."},
-        {id: 1, number: '04', title: 'Visit & Check-out', paragraph: "Walk in right when it's your turn. No waiting, no hassle. Rate your experience."},
+        {id: 2, number: '02', title: 'Book a Token', paragraph: 'Pick your doctor, select a time slot, and receive your token number instantly.'},
+        {id: 3, number: '03', title: 'Track Your Turn', paragraph: "Monitor the live queue from anywhere. Get notified when it's almost your turn."},
+        {id: 4, number: '04', title: 'Visit & Check-out', paragraph: "Walk in right when it's your turn. No waiting, no hassle. Rate your experience."},
     ]
-  return (
-    <div>
-      <div className='flex items-center flex-col bg-gray-100 pb-21'>
 
-        {/* Div for short title */}
-        <div className='flex items-center gap-2 border rounded-2xl w-fit px-3 py-1 border-gray-300 mt-25'>
-            <div className='w-2 h-2 rounded-full bg-green-500 shadow-2xl'></div>
-            <p>Now Serving 500+ Clincs Nationwide</p>
-        </div>
-
-        {/* Main Title */}
-        <div className='mt-11'>
-            <h1 className='font-bold text-6xl text-center'>Skip The Waiting</h1>
-            <h1 className='font-bold text-6xl text-center'>Room, <span className='text-sky-700'>Not Docotor</span></h1>
-            <p className='max-w-201 text-center mt-11 text-gray-600'>Book your clinic token online and track your position in the queue in real-time. No more sitting in crowded waiting rooms for hours. No more thinking, Join fast and save your time.</p>
-        </div>
-        
-        {/* Buttons */}
-        <div className='flex gap-3 mt-11'>
-            <button className='px-5 py-2 bg-sky-600 rounded-lg text-white flex gap-3 font-semibold m-auto'>Book a Token  <LucideArrowRight className='size-5 m-auto'/></button>
-            <button className='px-5 py-2 border border-gray-300 rounded-lg bg-white font-semibold'>Track Your Queue</button>
-        </div>
-
-        {/* Queue */}
-        <div className='w-201 bg-white rounded-3xl py-5 shadow mt-11'>
-            <div className='flex justify-between items-center border-b border-gray-400 px-7 py-3'>
-                <div className='flex gap-2 items-center'>
-                    <div className='w-2 h-2 rounded-full bg-green-500 shadow-2xl'></div>
-                    <p className='font-semibold text-sm'>Live Queue - City Care Clinic</p>
+    return (
+        <div className="overflow-x-hidden">
+            {/* Hero Section */}
+            <div className='flex items-center flex-col bg-gray-100 pb-12 md:pb-24 px-4'>
+                <div className='flex items-center gap-2 border rounded-2xl w-fit px-3 py-1 border-gray-300 mt-12 md:mt-24 bg-white'>
+                    <div className='w-2 h-2 rounded-full bg-green-500 animate-pulse'></div>
+                    <p className='text-xs md:text-sm font-medium'>Now Serving 500+ Clinics Nationwide</p>
                 </div>
-                <p className='text-sm'>Updated Just Now</p>
-            </div>
-            <div className='flex justify-between items-center border-b border-gray-400 px-7 py-4'>
-                <div className='flex gap-2 items-center'>
-                    <div className='w-9 h-9 rounded-lg bg-sky-200 shadow-2xl flex items-center justify-center font-bold'>13</div>
-                    <p className='text-gray-500'>Current Token</p>
+
+                <div className='mt-8 md:mt-11 px-2'>
+                    <h1 className='font-bold text-4xl md:text-6xl text-center leading-tight'>
+                        Skip The Waiting <br className="hidden md:block"/> 
+                        Room, <span className='text-sky-700'>Not Doctor</span>
+                    </h1>
+                    <p className='max-w-2xl text-center mt-6 md:mt-8 text-gray-600 text-sm md:text-base mx-auto'>
+                        Book your clinic token online and track your position in the queue in real-time. 
+                        No more sitting in crowded waiting rooms for hours.
+                    </p>
                 </div>
-                <p className='text-sm font-bold text-cyan-600'>In Progress</p>
-            </div>
-            <div className='flex justify-between items-center border-b border-gray-400 px-7 py-4'>
-                <div className='flex gap-2 items-center'>
-                    <div className='w-9 h-9 rounded-lg bg-sky-200 shadow-2xl flex items-center justify-center font-bold'>14</div>
-                    <p className='text-gray-500'>Up Next</p>
+                
+                <div className='flex flex-col sm:flex-row gap-3 mt-10 w-full sm:w-auto'>
+                    <button className='px-6 py-3 bg-sky-600 rounded-lg text-white flex items-center justify-center gap-3 font-semibold'>
+                        Book a Token <LucideArrowRight className='size-5'/>
+                    </button>
+                    <button className='px-6 py-3 border border-gray-300 rounded-lg bg-white font-semibold'>
+                        Track Your Queue
+                    </button>
                 </div>
-                <p className='text-sm'>Waiting</p>
-            </div>
-            <div className='flex justify-between items-center border-b border-gray-400 px-7 py-4 bg-sky-50'>
-                <div className='flex gap-2 items-center'>
-                    <div className='w-9 h-9 rounded-lg bg-sky-200 shadow-2xl flex items-center justify-center font-bold'>15</div>
-                    <p className='text-gray-500'>You</p>
+
+                {/* Queue UI - Responsive Width */}
+                <div className='w-full max-w-2xl bg-white rounded-3xl py-5 shadow-lg mt-12'>
+                    <div className='flex justify-between items-center border-b border-gray-100 px-5 md:px-7 py-3'>
+                        <div className='flex gap-2 items-center'>
+                            <div className='w-2 h-2 rounded-full bg-green-500'></div>
+                            <p className='font-semibold text-xs md:text-sm'>Live Queue - City Care Clinic</p>
+                        </div>
+                        <p className='text-[10px] md:text-xs text-gray-400'>Updated Just Now</p>
+                    </div>
+                    {/* Token Row Template */}
+                    {[
+                        { num: 13, label: 'Current Token', status: 'In Progress', color: 'text-cyan-600 font-bold' },
+                        { num: 14, label: 'Up Next', status: 'Waiting', color: '' },
+                        { num: 15, label: 'You', status: '2 ahead', color: 'bg-sky-50' },
+                        { num: 16, label: 'Current Token', status: 'Waiting', color: '' }
+                    ].map((item, i) => (
+                        <div key={i} className={`flex justify-between items-center border-b border-gray-50 px-5 md:px-7 py-4 ${item.color.includes('bg') ? item.color : ''}`}>
+                            <div className='flex gap-3 items-center'>
+                                <div className='w-9 h-9 rounded-lg bg-sky-100 flex items-center justify-center font-bold text-sky-800'>{item.num}</div>
+                                <p className='text-gray-500 text-sm md:text-base'>{item.label}</p>
+                            </div>
+                            <p className={`text-xs md:text-sm ${item.color.includes('text') ? item.color : 'text-gray-400'}`}>{item.status}</p>
+                        </div>
+                    ))}
                 </div>
-                <p className='text-sm'>2 ahead</p>
             </div>
-            <div className='flex justify-between items-center px-7 py-4'>
-                <div className='flex gap-2 items-center'>
-                    <div className='w-9 h-9 rounded-lg bg-sky-200 shadow-2xl flex items-center justify-center font-bold'>16</div>
-                    <p className='text-gray-500'>Current Token</p>
+
+            {/* Features Section */}
+            <div className='flex flex-col items-center py-16 md:py-24 px-4'>
+                <div className='flex flex-col gap-3 mb-12'>
+                    <p className='text-center text-sky-600 font-bold tracking-wider text-xs md:text-sm uppercase'>Everything You Need</p>
+                    <h2 className='text-center font-bold text-3xl md:text-4xl px-4'>A smarter way to visit the clinic</h2>
+                    <p className='text-center text-gray-500 max-w-xl mx-auto'>From booking to check-out, MediQueue streamlines the entire patient journey.</p>
                 </div>
-                <p className='text-sm'>Waiting</p>
+                {/* Responsive Grid: 1 col on mobile, 2 on tablet, 3 on desktop */}
+                <div className='w-full max-w-6xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6'>
+                    {bookingWays.map(value => (
+                        <LandingCard key={value.id} icon={value.icon} title={value.title} paragraph={value.paragraph}/>
+                    ))}
+                </div>
             </div>
-        </div>
-      </div>
 
-      {/* Next Page */}
-      <div className='flex flex-col items-center py-21'>
-        <div className='flex flex-col gap-3'>
-            <p className='text-center text-sky-600 font-bold'>EVERYTHING YOU NEED</p>
-            <h1 className='text-center font-bold text-4xl'>A smarter way to visit the clinic</h1>
-            <p className='text-center'>From booking to check-out, MediQueue streamlines the entire patient journey.</p>
-        </div>
-        <div className='w-330 grid grid-cols-3 gap-5 mt-11'>
-            {bookingWays.map(value => (
-                <LandingCard key={value.id} icon={value.icon} title={value.title} paragraph={value.paragraph}/>
-            ))}
-        </div>
-      </div>
-
-      {/* Next Page */}
-      <div className='flex flex-col items-center bg-gray-100 py-21'>
-        <div className='flex flex-col gap-3'>
-            <p className='text-center text-sky-600 font-bold'>EVERYTHING YOU NEED</p>
-            <h1 className='text-center font-bold text-4xl'>A smarter way to visit the clinic</h1>
-            <p className='text-center'>From booking to check-out, MediQueue streamlines the entire patient journey.</p>
-        </div>
-        <div className='w-330 grid grid-cols-4 gap-5 mt-11'>
-            {steps.map(value => (
-                <LandingCard2 key={value.id} number={value.number} title={value.title} paragraph={value.paragraph}/>
-            ))}
-        </div>
-      </div>
-
-      {/* Next Page */}
-      <div className='flex flex-col items-center bg-sky-600 py-21'>
-        <div className='flex flex-col gap-3'>
-            <h1 className='text-center font-bold text-4xl text-white'>Ready to skip the wait?</h1>
-            <p className='text-center text-white max-w-131'>Join thousands of patients who have already simplified their clinic visits with MediQueue.</p>
-        </div>
-
-        {/* Buttons */}
-        <div className='flex gap-3 mt-7'>
-            <button className='px-5 py-2 bg-white rounded-lg flex gap-3 font-semibold m-auto'>Book Your First Token  <LucideArrowRight className='size-5 m-auto'/></button>
-            <button className='px-5 py-2 rounded-lg font-semibold text-white'>View Live Queues</button>
-        </div>
-      </div>
-
-      {/* Next Page */}
-      <div className='flex flex-col items-center py-11 bg-gray-100'>
-        <div className='grid grid-cols-4 gap-11 w-330 border-b pb-5 border-gray-400'>
-            <div>
-                <div className='font-bold text-2xl flex items-center mb-3'><div className='h-7 w-7 rounded-full bg-sky-700 flex items-center justify-center text-white'><p>M</p></div>ediTurn</div>
-                <p>Skip the waiting room, not the doctor. Book tokens and track your queue in real-time.</p>
+            {/* Steps Section */}
+            <div className='flex flex-col items-center bg-gray-100 py-16 md:py-24 px-4'>
+                <div className='flex flex-col gap-3 mb-12'>
+                    <p className='text-center text-sky-600 font-bold text-xs md:text-sm uppercase tracking-widest'>How it Works</p>
+                    <h2 className='text-center font-bold text-3xl md:text-4xl'>Simple 4-step process</h2>
+                </div>
+                {/* Responsive Grid: 1 col mobile, 2 col tablet, 4 col desktop */}
+                <div className='w-full max-w-6xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6'>
+                    {steps.map(value => (
+                        <LandingCard2 key={value.id} number={value.number} title={value.title} paragraph={value.paragraph}/>
+                    ))}
+                </div>
             </div>
-            <div className='flex flex-col gap-3'>
-                <h3 className='font-bold'>Product</h3>
-                <p className='text-sm text-gray-600 hover:text-black cursor-pointer'>Book Token</p>
-                <p className='text-sm text-gray-600 hover:text-black cursor-pointer'>Track Queue</p>
-                <p className='text-sm text-gray-600 hover:text-black cursor-pointer'>For Clinics</p>
-                <p className='text-sm text-gray-600 hover:text-black cursor-pointer'>Pricing</p>
+
+            {/* CTA Section */}
+            <div className='flex flex-col items-center bg-sky-600 py-16 md:py-24 px-6 text-center'>
+                <h2 className='font-bold text-3xl md:text-4xl text-white mb-4'>Ready to skip the wait?</h2>
+                <p className='text-white/80 max-w-lg mb-10'>Join thousands of patients who have already simplified their clinic visits with MediQueue.</p>
+                <div className='flex flex-col sm:flex-row gap-4 w-full sm:w-auto'>
+                    <button className='px-8 py-3 bg-white text-sky-700 rounded-lg flex items-center justify-center gap-3 font-bold hover:bg-gray-50 transition-colors'>
+                        Book Your First Token <LucideArrowRight className='size-5'/>
+                    </button>
+                    <button className='px-8 py-3 rounded-lg font-semibold text-white border border-white/30 hover:bg-white/10'>
+                        View Live Queues
+                    </button>
+                </div>
             </div>
-            <div className='flex flex-col gap-3'>
-                <h3 className='font-bold'>Support</h3>
-                <p className='text-sm text-gray-600 hover:text-black cursor-pointer'>Help Center</p>
-                <p className='text-sm text-gray-600 hover:text-black cursor-pointer'>Contact Us</p>
-                <p className='text-sm text-gray-600 hover:text-black cursor-pointer'>FAQs</p>
-            </div>
-            <div className='flex flex-col gap-3'>
-                <h3 className='font-bold'>Legal</h3>
-                <p className='text-sm text-gray-600 hover:text-black cursor-pointer'>Privacy Policy</p>
-                <p className='text-sm text-gray-600 hover:text-black cursor-pointer'>Terms of Services</p>
-                <p className='text-sm text-gray-600 hover:text-black cursor-pointer'>HIPAA Compliance</p>
-            </div>
+
+            {/* Footer */}
+            <footer className='py-12 md:py-16 bg-gray-100 px-6'>
+                <div className='max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 border-b pb-12 border-gray-300'>
+                    <div className='col-span-1 lg:col-span-1'>
+                        <div className='font-bold text-2xl flex items-center mb-4'>
+                            <div className='h-8 w-8 rounded-full bg-sky-700 flex items-center justify-center text-white mr-2 text-sm'>M</div>
+                            MediTurn
+                        </div>
+                        <p className='text-gray-500 text-sm leading-relaxed'>
+                            Skip the waiting room, not the doctor. Book tokens and track your queue in real-time.
+                        </p>
+                    </div>
+                    {['Product', 'Support', 'Legal'].map((title, idx) => (
+                        <div key={idx} className='flex flex-col gap-3'>
+                            <h3 className='font-bold text-gray-900'>{title}</h3>
+                            <ul className='flex flex-col gap-2'>
+                                {['Link 1', 'Link 2', 'Link 3', 'Link 4'].map((item, i) => (
+                                    <li key={i} className='text-sm text-gray-500 hover:text-sky-600 cursor-pointer transition-colors'>{item}</li>
+                                ))}
+                            </ul>
+                        </div>
+                    ))}
+                </div>
+                <div className='max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center py-8 gap-4 text-xs md:text-sm text-gray-400'>
+                    <p>© 2026 MediQueue. All rights reserved.</p>
+                    <p>Built with care for patients and clinics.</p>
+                </div>
+            </footer>
         </div>
-        <div className='flex justify-between w-330 py-5 text-sm'>
-            <p>2026 MediQueue. All rights reserved.</p>
-            <p>Built with care for patients and clinics.</p>
-        </div>
-      </div>
-    </div>
-  );
+    );
 };
 
 export default memo(LandigPage);

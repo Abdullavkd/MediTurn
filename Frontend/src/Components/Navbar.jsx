@@ -1,11 +1,13 @@
 import { memo, useState } from 'react';
 import { Menu, X, User, LogOut } from 'lucide-react';
 import LoginPopup from './LoginPopup';
+import RegisterPopup from './RegisterPopup';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false); 
   const [showLogin, setShowLogin] = useState(false);
+  const [showRegister, setShowRegister] = useState(false)
 
   const navLinks = ['Home', 'Book Token', 'Track Queue'];
 
@@ -57,17 +59,14 @@ const Navbar = () => {
             ) : (
               <div className="hidden sm:flex gap-6 items-center">
                 {/* Static Login (No Animation) */}
-                <button className='text-gray-600 hover:text-sky-700 font-medium transition-colors' onClick={() => setShowLogin(true)}>
+                <button className='text-gray-600 hover:text-sky-700 font-medium transition-colors cursor-pointer' onClick={() => setShowLogin(true)}>
                   Login
                 </button>
                 
                 {/* Animated Register Button */}
                 <button className="bg-sky-700 hover:bg-sky-800 text-white px-5 py-2 rounded-lg transition-all active:scale-95 shadow-sm">
-                  <div className='group relative overflow-hidden h-5 flex items-center justify-center'>
+                  <div className='group relative overflow-hidden h-5 flex items-center justify-center cursor-pointer' onClick={() => setShowRegister(true)}>
                       Register
-                    <span className='absolute inset-0 flex items-center justify-center transition-all duration-500 translate-y-full opacity-0 group-hover:translate-y-0 group-hover:opacity-100 font-bold'>
-                      Join Now
-                    </span>
                   </div>
                 </button>
               </div>
@@ -88,16 +87,24 @@ const Navbar = () => {
             ))}
             <hr />
             <div className='flex flex-col gap-4'>
-              <button className='text-left text-white bg-sky-700 py-2 rounded-xl font-bold' onClick={() => setShowLogin(true)}>Login</button>
-              <button className='text-left text-sky-700 font-bold'>Register</button>
+              <button className='w-full text-center py-2 rounded-xl text-gray-600' onClick={() => setShowLogin(true)}>Login</button>
+              <button className='w-full text-center bg-sky-700 text-white py-2 rounded-md' onClick={() => setShowRegister(true)}>Register</button>
             </div>
           </div>
         </div>
       </nav>
 
       <LoginPopup 
-          isOpen={showLogin} 
-          onClose={() => setShowLogin(false)}/>
+        isOpen={showLogin} 
+        onClose={() => setShowLogin(false)}
+        register={() => {setShowRegister(true); setShowLogin(false)}}
+      />
+
+      <RegisterPopup
+      isOpen={showRegister}
+      onClose={() => setShowRegister(false)}
+      login={() => {setShowLogin(true); setShowRegister(false)}}
+      />
     </div>
     
   );

@@ -2,6 +2,7 @@ import { Clock, LayoutDashboard, Lock, LucideArrowRight, Phone, Timer, User } fr
 import { memo } from 'react';
 import LandingCard from '../Components/LandingCard';
 import LandingCard2 from '../Components/LandingCard2';
+import Navbar from '../Components/Navbar';
 
 const LandigPage = () => {
 
@@ -23,6 +24,7 @@ const LandigPage = () => {
 
     return (
         <div className="overflow-x-hidden">
+            <Navbar/>
             {/* Hero Section */}
             <div className='flex items-center flex-col bg-gray-100 pb-12 md:pb-24 px-4'>
                 <div className='flex items-center gap-2 border rounded-2xl w-fit px-3 py-1 border-gray-300 mt-12 md:mt-24 bg-white'>

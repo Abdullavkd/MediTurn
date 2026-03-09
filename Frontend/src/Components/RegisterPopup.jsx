@@ -1,7 +1,7 @@
 import React from 'react';
 import { X } from 'lucide-react';
 
-const LoginPopup = ({ isOpen, onClose, register }) => {
+const RegisterPopup = ({ isOpen, onClose, login }) => {
   // Logic: Only render if 'isOpen' is true
   if (!isOpen) return null;
 
@@ -20,9 +20,18 @@ const LoginPopup = ({ isOpen, onClose, register }) => {
           <X size={24} />
         </button>
 
-        <h2 className="text-2xl font-bold text-gray-900 mb-6">Sign In</h2>
+        <h2 className="text-2xl font-bold text-gray-900 mb-6">Register</h2>
 
         <form className="space-y-5" onSubmit={(e) => e.preventDefault()}>
+          <div>
+            <label className="block text-sm font-semibold mb-1 ml-1">Name</label>
+            <input 
+              type="text" 
+              placeholder="Enter Your Name Here" 
+              className="w-full p-3 rounded-xl border border-gray-200 bg-gray-50 focus:ring-2 focus:ring-sky-500 outline-none" 
+            />
+          </div>
+
           <div>
             <label className="block text-sm font-semibold mb-1 ml-1">Email address</label>
             <input 
@@ -33,10 +42,16 @@ const LoginPopup = ({ isOpen, onClose, register }) => {
           </div>
 
           <div>
-            <div className="flex justify-between mb-1 px-1">
+            <label className="block text-sm font-semibold mb-1 ml-1">Phone</label>
+            <input 
+              type="number" 
+              placeholder="Enter Your Phone Number" 
+              className="w-full p-3 rounded-xl border border-gray-200 bg-gray-50 focus:ring-2 focus:ring-sky-500 outline-none" 
+            />
+          </div>
+
+          <div className='block text-sm font-semibold mb-1 ml-1'>
               <label className="text-sm font-semibold">Password</label>
-              <span className="text-xs text-sky-600 font-bold cursor-pointer">Forgot?</span>
-            </div>
             <input 
               type="password" 
               placeholder="••••••••" 
@@ -45,16 +60,16 @@ const LoginPopup = ({ isOpen, onClose, register }) => {
           </div>
 
           <button className="w-full bg-sky-700 text-white font-bold py-3.5 rounded-xl hover:bg-sky-800 transition-all shadow-lg active:scale-95">
-            Login
+            Register
           </button>
         </form>
 
         <p className="mt-8 text-center text-sm text-gray-500">
-          Don't have an account? <span className="text-sky-700 font-bold cursor-pointer" onClick={register}>Create account</span>
+          Have you already an acoount? <span className="text-sky-700 font-bold cursor-pointer" onClick={login}>Login</span>
         </p>
       </div>
     </div>
   );
 };
 
-export default LoginPopup;
+export default RegisterPopup;
